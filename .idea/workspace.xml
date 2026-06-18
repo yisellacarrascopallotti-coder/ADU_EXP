@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e6d611b0-8d3d-4da7-a8b6-908ff148381a" name="Changes" comment="creo estructura inicial proyecto">
+    <list default="true" id="e6d611b0-8d3d-4da7-a8b6-908ff148381a" name="Changes" comment="agrego descarga automatica de datos">
+      <change afterPath="$PROJECT_DIR$/scripts/descargar_egresos.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/descargar_datos.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/descargar_ingresos.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +35,9 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "Python.descargar_datos.executor": "Run",
+    "Python.descargar_egresos.executor": "Run",
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main"
@@ -71,12 +75,30 @@
       <option name="project" value="LOCAL" />
       <updated>1781752594220</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="agrego librerias del proyecto">
+      <option name="closed" value="true" />
+      <created>1781753072063</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1781753072063</updated>
+    </task>
+    <task id="LOCAL-00004" summary="agrego descarga automatica de datos">
+      <option name="closed" value="true" />
+      <created>1781754174620</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1781754174620</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="inicio proyecto ADU_EXP" />
     <MESSAGE value="creo estructura inicial proyecto" />
-    <option name="LAST_COMMIT_MESSAGE" value="creo estructura inicial proyecto" />
+    <MESSAGE value="agrego librerias del proyecto" />
+    <MESSAGE value="agrego descarga automatica de datos" />
+    <option name="LAST_COMMIT_MESSAGE" value="agrego descarga automatica de datos" />
   </component>
 </project>
