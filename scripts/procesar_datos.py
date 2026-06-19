@@ -84,3 +84,33 @@ print(df_ingresos.columns)
 
 print("COLUMNAS EGRESOS")
 print(df_egresos.columns)
+
+# -------------------------
+# LIMPIEZA DE TIPOS
+# -------------------------
+
+df_ingresos["PERIODO"] = (
+    df_ingresos["PERIODO"]
+    .str.replace(",00", "")
+    .astype(int)
+)
+
+df_egresos["PERIODO"] = (
+    df_egresos["PERIODO"]
+    .astype(int)
+)
+
+df_ingresos["MES"] = (
+    df_ingresos["MES"]
+    .str.replace(",00", "")
+    .astype(int)
+)
+
+df_egresos["MES"] = (
+    df_egresos["MES"]
+    .astype(int)
+)
+
+print(df_ingresos[["PERIODO","MES"]].head())
+
+print(df_egresos[["PERIODO","MES"]].head())
