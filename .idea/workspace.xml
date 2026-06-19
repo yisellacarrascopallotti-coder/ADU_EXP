@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e6d611b0-8d3d-4da7-a8b6-908ff148381a" name="Changes" comment="ordeno rutas de descarga de datos">
-      <change afterPath="$PROJECT_DIR$/scripts/procesar_datos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="e6d611b0-8d3d-4da7-a8b6-908ff148381a" name="Changes" comment="prueba lectura ingresos 2024">
+      <change beforePath="$PROJECT_DIR$/scripts/procesar_datos.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/procesar_datos.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +103,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781755549797</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="prueba lectura ingresos 2024">
+      <option name="closed" value="true" />
+      <created>1781909555837</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1781909555837</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -113,6 +120,7 @@
     <MESSAGE value="agrego librerias del proyecto" />
     <MESSAGE value="agrego descarga automatica de datos" />
     <MESSAGE value="ordeno rutas de descarga de datos" />
-    <option name="LAST_COMMIT_MESSAGE" value="ordeno rutas de descarga de datos" />
+    <MESSAGE value="prueba lectura ingresos 2024" />
+    <option name="LAST_COMMIT_MESSAGE" value="prueba lectura ingresos 2024" />
   </component>
 </project>

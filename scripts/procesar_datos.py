@@ -2,7 +2,23 @@ import pandas as pd
 import os
 
 
-archivo = os.path.join(
+def leer_csv(ruta_archivo):
+
+    df = pd.read_csv(
+        ruta_archivo,
+        sep=";",
+        encoding="latin1"
+    )
+
+    return df
+
+
+
+# -------------------------
+# INGRESOS
+# -------------------------
+
+archivo_ingresos = os.path.join(
     os.path.dirname(__file__),
     "..",
     "datos",
@@ -12,17 +28,59 @@ archivo = os.path.join(
 )
 
 
-df = pd.read_csv(
-    archivo,
-    sep=";",
-    encoding="latin1"
+df_ingresos = leer_csv(archivo_ingresos)
+
+
+print("TABLA INGRESOS")
+print(df_ingresos.head())
+
+print(df_ingresos.shape)
+
+
+
+# -------------------------
+# EGRESOS
+# -------------------------
+
+carpeta_egresos = os.path.join(
+    os.path.dirname(__file__),
+    "..",
+    "datos",
+    "egresos",
+    "archivos_originales"
 )
 
 
-print(df.head())
+print("ARCHIVOS EGRESOS")
 
-print(df.shape)
+print(os.listdir(carpeta_egresos))
 
-print(df.columns)
+# -------------------------
+# LEER EGRESOS 2024
+# -------------------------
 
-print(df.info())
+archivo_egresos = os.path.join(
+    os.path.dirname(__file__),
+    "..",
+    "datos",
+    "egresos",
+    "archivos_originales",
+    "salidas_2024.csv"
+)
+
+
+df_egresos = leer_csv(archivo_egresos)
+
+
+print("TABLA EGRESOS")
+
+print(df_egresos.head())
+
+print(df_egresos.shape)
+
+print("COLUMNAS INGRESOS")
+print(df_ingresos.columns)
+
+
+print("COLUMNAS EGRESOS")
+print(df_egresos.columns)
