@@ -12,6 +12,21 @@ def leer_csv(ruta_archivo):
 
     return df
 
+def limpiar_numero(columna):
+
+    columna = (
+        columna
+        .astype(str)
+        .str.replace(",", ".", regex=False)
+    )
+
+    columna = pd.to_numeric(
+        columna,
+        errors="coerce"
+    )
+
+    return columna
+
 
 
 # -------------------------
@@ -114,3 +129,52 @@ df_egresos["MES"] = (
 print(df_ingresos[["PERIODO","MES"]].head())
 
 print(df_egresos[["PERIODO","MES"]].head())
+
+# -------------------------
+# LIMPIEZA MONTOS INGRESOS
+# -------------------------
+
+df_ingresos["CIF_US"] = limpiar_numero(
+    df_ingresos["CIF_US"]
+)
+
+
+df_ingresos["AD_VALOREM_US"] = limpiar_numero(
+    df_ingresos["AD_VALOREM_US"]
+)
+
+
+df_ingresos["CANTIDAD_MERCANCÍA"] = limpiar_numero(
+    df_ingresos["CANTIDAD_MERCANCÍA"]
+)
+
+# -------------------------
+# LIMPIEZA MONTOS EGRESOS
+# -------------------------
+
+df_egresos["FOB_US_DUSLEG"] = limpiar_numero(
+    df_egresos["FOB_US_DUSLEG"]
+)
+
+
+df_egresos["FOBUS_AJUSTADO_IVV"] = limpiar_numero(
+    df_egresos["FOBUS_AJUSTADO_IVV"]
+)
+
+
+df_egresos["CANTIDAD_MERCANCIA"] = limpiar_numero(
+    df_egresos["CANTIDAD_MERCANCIA"]
+)
+
+print(df_ingresos[[
+    "CIF_US",
+    "AD_VALOREM_US",
+    "CANTIDAD_MERCANCÍA"
+]].dtypes)
+
+
+print(df_egresos[[
+    "FOB_US_DUSLEG",
+    "FOBUS_AJUSTADO_IVV",
+    "CANTIDAD_MERCANCIA"
+]].dtypes)

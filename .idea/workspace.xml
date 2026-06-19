@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e6d611b0-8d3d-4da7-a8b6-908ff148381a" name="Changes" comment="lectura inicial de ingresos y egresos, comparación de columnas">
+    <list default="true" id="e6d611b0-8d3d-4da7-a8b6-908ff148381a" name="Changes" comment="limpieza inicial periodo y mes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/procesar_datos.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/procesar_datos.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -119,7 +120,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781910138652</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="limpieza inicial periodo y mes">
+      <option name="closed" value="true" />
+      <created>1781910329033</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1781910329033</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -130,6 +139,7 @@
     <MESSAGE value="ordeno rutas de descarga de datos" />
     <MESSAGE value="prueba lectura ingresos 2024" />
     <MESSAGE value="lectura inicial de ingresos y egresos, comparación de columnas" />
-    <option name="LAST_COMMIT_MESSAGE" value="lectura inicial de ingresos y egresos, comparación de columnas" />
+    <MESSAGE value="limpieza inicial periodo y mes" />
+    <option name="LAST_COMMIT_MESSAGE" value="limpieza inicial periodo y mes" />
   </component>
 </project>
