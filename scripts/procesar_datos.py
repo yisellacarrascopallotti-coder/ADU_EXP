@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import glob
 
 
 def leer_csv(ruta_archivo):
@@ -33,20 +34,59 @@ def limpiar_numero(columna):
 # INGRESOS
 # -------------------------
 
-archivo_ingresos = os.path.join(
+# -------------------------
+# CARGAR INGRESOS
+# -------------------------
+
+carpeta_ingresos = os.path.join(
     os.path.dirname(__file__),
     "..",
     "datos",
     "ingresos",
-    "archivos_originales",
-    "ingresos_2024.csv"
+    "archivos_originales"
 )
 
 
-df_ingresos = leer_csv(archivo_ingresos)
+# -------------------------
+# BUSCAR ARCHIVOS INGRESOS
+# -------------------------
+
+archivos_ingresos = glob.glob(
+    os.path.join(carpeta_ingresos, "*.csv")
+)
 
 
-print("TABLA INGRESOS")
+archivos_ingresos += glob.glob(
+    os.path.join(carpeta_ingresos, "extraidos", "*.csv")
+)
+
+
+print("ARCHIVOS INGRESOS ENCONTRADOS")
+
+print(archivos_ingresos)
+
+
+# Leer todos los archivos encontrados
+
+lista_ingresos = []
+
+for archivo in archivos_ingresos:
+
+    df = leer_csv(archivo)
+
+    lista_ingresos.append(df)
+
+
+# Unir todos los años
+
+df_ingresos = pd.concat(
+    lista_ingresos,
+    ignore_index=True
+)
+
+
+print("TABLA INGRESOS TOTAL")
+
 print(df_ingresos.head())
 
 print(df_ingresos.shape)
@@ -71,27 +111,55 @@ print("ARCHIVOS EGRESOS")
 print(os.listdir(carpeta_egresos))
 
 # -------------------------
-# LEER EGRESOS 2024
+# LEER EGRESOS
 # -------------------------
 
-archivo_egresos = os.path.join(
-    os.path.dirname(__file__),
-    "..",
-    "datos",
-    "egresos",
-    "archivos_originales",
-    "salidas_2024.csv"
+# -------------------------
+# BUSCAR ARCHIVOS EGRESOS
+# -------------------------
+
+archivos_egresos = glob.glob(
+    os.path.join(carpeta_egresos, "*.csv")
 )
 
 
-df_egresos = leer_csv(archivo_egresos)
+archivos_egresos += glob.glob(
+    os.path.join(carpeta_egresos, "extraidos", "*.csv")
+)
 
 
-print("TABLA EGRESOS")
+print("ARCHIVOS EGRESOS ENCONTRADOS")
+
+print(archivos_egresos)
+
+
+print("ARCHIVOS EGRESOS ENCONTRADOS")
+print(archivos_egresos)
+
+
+lista_egresos = []
+
+
+for archivo in archivos_egresos:
+
+    df = leer_csv(archivo)
+
+    lista_egresos.append(df)
+
+
+
+df_egresos = pd.concat(
+    lista_egresos,
+    ignore_index=True
+)
+
+
+print("TABLA EGRESOS TOTAL")
 
 print(df_egresos.head())
 
 print(df_egresos.shape)
+
 
 print("COLUMNAS INGRESOS")
 print(df_ingresos.columns)
@@ -105,9 +173,12 @@ print(df_egresos.columns)
 # -------------------------
 
 df_ingresos["PERIODO"] = (
-    df_ingresos["PERIODO"]
-    .str.replace(",00", "")
-    .astype(int)
+    pd.to_numeric(
+        df_ingresos["PERIODO"]
+        .astype(str)
+        .str.replace(",00", ""),
+        errors="coerce"
+    )
 )
 
 df_egresos["PERIODO"] = (
@@ -116,9 +187,12 @@ df_egresos["PERIODO"] = (
 )
 
 df_ingresos["MES"] = (
-    df_ingresos["MES"]
-    .str.replace(",00", "")
-    .astype(int)
+    pd.to_numeric(
+        df_ingresos["MES"]
+        .astype(str)
+        .str.replace(",00", ""),
+        errors="coerce"
+    )
 )
 
 df_egresos["MES"] = (
