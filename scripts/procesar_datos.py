@@ -5,13 +5,23 @@ import glob
 
 def leer_csv(ruta_archivo):
 
-    df = pd.read_csv(
-        ruta_archivo,
-        sep=";",
-        encoding="latin1"
-    )
+    try:
 
-    return df
+        df = pd.read_csv(
+            ruta_archivo,
+            sep=";",
+            encoding="latin1"
+        )
+
+        return df
+
+
+    except pd.errors.EmptyDataError:
+
+        print("ARCHIVO VACIO, SE OMITE:")
+        print(ruta_archivo)
+
+        return None
 
 def limpiar_numero(columna):
 
@@ -43,7 +53,8 @@ carpeta_ingresos = os.path.join(
     "..",
     "datos",
     "ingresos",
-    "archivos_originales"
+    "archivos_originales",
+    "extraidos"
 )
 
 
@@ -53,11 +64,6 @@ carpeta_ingresos = os.path.join(
 
 archivos_ingresos = glob.glob(
     os.path.join(carpeta_ingresos, "*.csv")
-)
-
-
-archivos_ingresos += glob.glob(
-    os.path.join(carpeta_ingresos, "extraidos", "*.csv")
 )
 
 
@@ -74,7 +80,9 @@ for archivo in archivos_ingresos:
 
     df = leer_csv(archivo)
 
-    lista_ingresos.append(df)
+    if df is not None:
+
+        lista_ingresos.append(df)
 
 
 # Unir todos los años
@@ -102,7 +110,8 @@ carpeta_egresos = os.path.join(
     "..",
     "datos",
     "egresos",
-    "archivos_originales"
+    "archivos_originales",
+    "extraidos"
 )
 
 
@@ -123,16 +132,6 @@ archivos_egresos = glob.glob(
 )
 
 
-archivos_egresos += glob.glob(
-    os.path.join(carpeta_egresos, "extraidos", "*.csv")
-)
-
-
-print("ARCHIVOS EGRESOS ENCONTRADOS")
-
-print(archivos_egresos)
-
-
 print("ARCHIVOS EGRESOS ENCONTRADOS")
 print(archivos_egresos)
 
@@ -144,7 +143,9 @@ for archivo in archivos_egresos:
 
     df = leer_csv(archivo)
 
-    lista_egresos.append(df)
+    if df is not None:
+
+        lista_egresos.append(df)
 
 
 
@@ -252,3 +253,6 @@ print(df_egresos[[
     "FOBUS_AJUSTADO_IVV",
     "CANTIDAD_MERCANCIA"
 ]].dtypes)
+
+print(df_ingresos["PERIODO"].value_counts())
+print(df_egresos["PERIODO"].value_counts())
