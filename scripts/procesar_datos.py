@@ -10,7 +10,11 @@ def leer_csv(ruta_archivo):
         df = pd.read_csv(
             ruta_archivo,
             sep=";",
-            encoding="latin1"
+            encoding="latin1",
+            low_memory=False,
+            dtype={
+                "ITEM_SA": "str"
+            }
         )
 
         return df
@@ -22,7 +26,6 @@ def leer_csv(ruta_archivo):
         print(ruta_archivo)
 
         return None
-
 def limpiar_numero(columna):
 
     columna = (
@@ -256,3 +259,66 @@ print(df_egresos[[
 
 print(df_ingresos["PERIODO"].value_counts())
 print(df_egresos["PERIODO"].value_counts())
+
+# -------------------------
+# GUARDAR TABLAS PROCESADAS
+# -------------------------
+
+carpeta_procesados = os.path.join(
+    os.path.dirname(__file__),
+    "..",
+    "datos",
+    "procesados"
+)
+
+
+carpeta_ingresos_procesados = os.path.join(
+    carpeta_procesados,
+    "ingresos"
+)
+
+
+carpeta_egresos_procesados = os.path.join(
+    carpeta_procesados,
+    "egresos"
+)
+
+
+os.makedirs(
+    carpeta_ingresos_procesados,
+    exist_ok=True
+)
+
+
+os.makedirs(
+    carpeta_egresos_procesados,
+    exist_ok=True
+)
+
+
+
+df_ingresos.to_csv(
+    os.path.join(
+        carpeta_ingresos_procesados,
+        "ingresos_total.csv"
+    ),
+    index=False,
+    encoding="utf-8"
+)
+
+
+
+df_egresos.to_csv(
+    os.path.join(
+        carpeta_egresos_procesados,
+        "egresos_total.csv"
+    ),
+    index=False,
+    encoding="utf-8"
+)
+
+
+
+print("--------------------------------")
+print("TABLAS PROCESADAS GUARDADAS")
+print(carpeta_procesados)
