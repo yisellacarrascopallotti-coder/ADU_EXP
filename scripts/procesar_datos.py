@@ -1,7 +1,27 @@
 import pandas as pd
 import os
-import glob
+from pathlib import Path
 
+
+# -------------------------
+# FUNCIÓN NORMALIZAR COLUMNAS
+# -------------------------
+
+def normalizar_columnas(df):
+
+    df.columns = (
+        df.columns
+        .str.encode("latin1", errors="ignore")
+        .str.decode("utf-8", errors="ignore")
+        .str.strip()
+    )
+
+    return df
+
+
+# -------------------------
+# FUNCIÓN LECTURA CSV
+# -------------------------
 
 def leer_csv(ruta_archivo):
 
@@ -12,10 +32,11 @@ def leer_csv(ruta_archivo):
             sep=";",
             encoding="latin1",
             low_memory=False,
-            dtype={
-                "ITEM_SA": "str"
-            }
+            dtype={"ITEM_SA": "str"}
         )
+
+        # 🔥 FIX COLUMNAS RARAS (CLAVE)
+        df = normalizar_columnas(df)
 
         return df
 
@@ -26,29 +47,24 @@ def leer_csv(ruta_archivo):
         print(ruta_archivo)
 
         return None
+
+
+# -------------------------
+# LIMPIEZA NUMÉRICA
+# -------------------------
+
 def limpiar_numero(columna):
 
     columna = (
-        columna
-        .astype(str)
+        columna.astype(str)
         .str.replace(",", ".", regex=False)
     )
 
-    columna = pd.to_numeric(
-        columna,
-        errors="coerce"
-    )
-
-    return columna
-
+    return pd.to_numeric(columna, errors="coerce")
 
 
 # -------------------------
 # INGRESOS
-# -------------------------
-
-# -------------------------
-# CARGAR INGRESOS
 # -------------------------
 
 carpeta_ingresos = os.path.join(
@@ -60,22 +76,10 @@ carpeta_ingresos = os.path.join(
     "extraidos"
 )
 
-
-# -------------------------
-# BUSCAR ARCHIVOS INGRESOS
-# -------------------------
-
-archivos_ingresos = glob.glob(
-    os.path.join(carpeta_ingresos, "*.csv")
-)
-
+archivos_ingresos = list(Path(carpeta_ingresos).rglob("*.csv"))
 
 print("ARCHIVOS INGRESOS ENCONTRADOS")
-
 print(archivos_ingresos)
-
-
-# Leer todos los archivos encontrados
 
 lista_ingresos = []
 
@@ -84,24 +88,14 @@ for archivo in archivos_ingresos:
     df = leer_csv(archivo)
 
     if df is not None:
-
         lista_ingresos.append(df)
 
 
-# Unir todos los años
-
-df_ingresos = pd.concat(
-    lista_ingresos,
-    ignore_index=True
-)
-
+df_ingresos = pd.concat(lista_ingresos, ignore_index=True)
 
 print("TABLA INGRESOS TOTAL")
-
 print(df_ingresos.head())
-
 print(df_ingresos.shape)
-
 
 
 # -------------------------
@@ -117,132 +111,80 @@ carpeta_egresos = os.path.join(
     "extraidos"
 )
 
-
-print("ARCHIVOS EGRESOS")
-
-print(os.listdir(carpeta_egresos))
-
-# -------------------------
-# LEER EGRESOS
-# -------------------------
-
-# -------------------------
-# BUSCAR ARCHIVOS EGRESOS
-# -------------------------
-
-archivos_egresos = glob.glob(
-    os.path.join(carpeta_egresos, "*.csv")
-)
-
+archivos_egresos = list(Path(carpeta_egresos).rglob("*.csv"))
 
 print("ARCHIVOS EGRESOS ENCONTRADOS")
 print(archivos_egresos)
 
-
 lista_egresos = []
-
 
 for archivo in archivos_egresos:
 
     df = leer_csv(archivo)
 
     if df is not None:
-
         lista_egresos.append(df)
 
 
-
-df_egresos = pd.concat(
-    lista_egresos,
-    ignore_index=True
-)
-
+df_egresos = pd.concat(lista_egresos, ignore_index=True)
 
 print("TABLA EGRESOS TOTAL")
-
 print(df_egresos.head())
-
 print(df_egresos.shape)
 
+
+# -------------------------
+# COLUMNAS
+# -------------------------
 
 print("COLUMNAS INGRESOS")
 print(df_ingresos.columns)
 
-
 print("COLUMNAS EGRESOS")
 print(df_egresos.columns)
 
-# -------------------------
-# LIMPIEZA DE TIPOS
-# -------------------------
-
-df_ingresos["PERIODO"] = (
-    pd.to_numeric(
-        df_ingresos["PERIODO"]
-        .astype(str)
-        .str.replace(",00", ""),
-        errors="coerce"
-    )
-)
-
-df_egresos["PERIODO"] = (
-    df_egresos["PERIODO"]
-    .astype(int)
-)
-
-df_ingresos["MES"] = (
-    pd.to_numeric(
-        df_ingresos["MES"]
-        .astype(str)
-        .str.replace(",00", ""),
-        errors="coerce"
-    )
-)
-
-df_egresos["MES"] = (
-    df_egresos["MES"]
-    .astype(int)
-)
-
-print(df_ingresos[["PERIODO","MES"]].head())
-
-print(df_egresos[["PERIODO","MES"]].head())
 
 # -------------------------
-# LIMPIEZA MONTOS INGRESOS
+# LIMPIEZA FECHAS
 # -------------------------
 
-df_ingresos["CIF_US"] = limpiar_numero(
-    df_ingresos["CIF_US"]
+df_ingresos["PERIODO"] = pd.to_numeric(
+    df_ingresos["PERIODO"].astype(str).str.replace(",00", ""),
+    errors="coerce"
 )
 
+df_egresos["PERIODO"] = df_egresos["PERIODO"].astype(int)
 
-df_ingresos["AD_VALOREM_US"] = limpiar_numero(
-    df_ingresos["AD_VALOREM_US"]
+
+df_ingresos["MES"] = pd.to_numeric(
+    df_ingresos["MES"].astype(str).str.replace(",00", ""),
+    errors="coerce"
 )
 
+df_egresos["MES"] = df_egresos["MES"].astype(int)
 
-df_ingresos["CANTIDAD_MERCANCÍA"] = limpiar_numero(
-    df_ingresos["CANTIDAD_MERCANCÍA"]
-)
 
 # -------------------------
-# LIMPIEZA MONTOS EGRESOS
+# LIMPIEZA INGRESOS
 # -------------------------
 
-df_egresos["FOB_US_DUSLEG"] = limpiar_numero(
-    df_egresos["FOB_US_DUSLEG"]
-)
+df_ingresos["CIF_US"] = limpiar_numero(df_ingresos["CIF_US"])
+df_ingresos["AD_VALOREM_US"] = limpiar_numero(df_ingresos["AD_VALOREM_US"])
+df_ingresos["CANTIDAD_MERCANCÍA"] = limpiar_numero(df_ingresos["CANTIDAD_MERCANCÍA"])
 
 
-df_egresos["FOBUS_AJUSTADO_IVV"] = limpiar_numero(
-    df_egresos["FOBUS_AJUSTADO_IVV"]
-)
+# -------------------------
+# LIMPIEZA EGRESOS
+# -------------------------
+
+df_egresos["FOB_US_DUSLEG"] = limpiar_numero(df_egresos["FOB_US_DUSLEG"])
+df_egresos["FOBUS_AJUSTADO_IVV"] = limpiar_numero(df_egresos["FOBUS_AJUSTADO_IVV"])
+df_egresos["CANTIDAD_MERCANCIA"] = limpiar_numero(df_egresos["CANTIDAD_MERCANCIA"])
 
 
-df_egresos["CANTIDAD_MERCANCIA"] = limpiar_numero(
-    df_egresos["CANTIDAD_MERCANCIA"]
-)
+# -------------------------
+# VALIDACIÓN FINAL
+# -------------------------
 
 print(df_ingresos[[
     "CIF_US",
@@ -250,18 +192,19 @@ print(df_ingresos[[
     "CANTIDAD_MERCANCÍA"
 ]].dtypes)
 
-
 print(df_egresos[[
     "FOB_US_DUSLEG",
     "FOBUS_AJUSTADO_IVV",
     "CANTIDAD_MERCANCIA"
 ]].dtypes)
 
+
 print(df_ingresos["PERIODO"].value_counts())
 print(df_egresos["PERIODO"].value_counts())
 
+
 # -------------------------
-# GUARDAR TABLAS PROCESADAS
+# GUARDAR
 # -------------------------
 
 carpeta_procesados = os.path.join(
@@ -271,52 +214,24 @@ carpeta_procesados = os.path.join(
     "procesados"
 )
 
+carpeta_ingresos_procesados = os.path.join(carpeta_procesados, "ingresos")
+carpeta_egresos_procesados = os.path.join(carpeta_procesados, "egresos")
 
-carpeta_ingresos_procesados = os.path.join(
-    carpeta_procesados,
-    "ingresos"
-)
-
-
-carpeta_egresos_procesados = os.path.join(
-    carpeta_procesados,
-    "egresos"
-)
-
-
-os.makedirs(
-    carpeta_ingresos_procesados,
-    exist_ok=True
-)
-
-
-os.makedirs(
-    carpeta_egresos_procesados,
-    exist_ok=True
-)
-
+os.makedirs(carpeta_ingresos_procesados, exist_ok=True)
+os.makedirs(carpeta_egresos_procesados, exist_ok=True)
 
 
 df_ingresos.to_csv(
-    os.path.join(
-        carpeta_ingresos_procesados,
-        "ingresos_total.csv"
-    ),
+    os.path.join(carpeta_ingresos_procesados, "ingresos_total.csv"),
     index=False,
     encoding="utf-8"
 )
-
-
 
 df_egresos.to_csv(
-    os.path.join(
-        carpeta_egresos_procesados,
-        "egresos_total.csv"
-    ),
+    os.path.join(carpeta_egresos_procesados, "egresos_total.csv"),
     index=False,
     encoding="utf-8"
 )
-
 
 
 print("--------------------------------")
